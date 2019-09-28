@@ -31,14 +31,15 @@ if( isset($_POST['btn-login']) ) {
  // if there's no error, continue to login
  if (!$error) {
  
-  $password = hash( 'sha256', $pass); // password hashing
-  $res=mysqli_query($conn, "SELECT user_id, name, password FROM users WHERE email='$email'" );
+  // $password = $pass; // password hashing
+  $res=mysqli_query($conn, "SELECT user_id, name, password, image FROM users WHERE email='$email'" );
   $row=mysqli_fetch_array($res, MYSQLI_ASSOC);
   $count = mysqli_num_rows($res); // if uname/pass is correct it returns must be 1 row
  
-  if( $count == 1 && $row['password'] === $password ) {
+  if( $count == 1 && $row['password'] === $pass ) {
    $_SESSION['user_id'] = $row['user_id'];
    $_SESSION['username'] = $row['name'];
+   $_SESSION['image'] = $row['image'];
    header("Location: home.php");
   } else {
    $errMSG = "Incorrect Credentials, Try again..." ;

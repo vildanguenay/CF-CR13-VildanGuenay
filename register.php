@@ -55,11 +55,11 @@ if ( isset($_POST['btn-signup']) ) {
   $passError = "Password must have atleast 6 characters." ;
  }
  // password hashing for security
- $hashedPassword = hash('sha256' , $pass);
+//  $hashedPassword = hash('sha256' , $pass);
  // if there's no error, continue to signup
  if( !$error ) {
  
-  $query = "INSERT INTO users (name,email,password) VALUES('$name','$email','$hashedPassword')";
+  $query = "INSERT INTO users (name,email,password) VALUES('$name','$email','$pass')";
   $res = mysqli_query($conn, $query);
  
   if ($res) {

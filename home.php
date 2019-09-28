@@ -9,8 +9,8 @@ if(!isset($_SESSION['user_id'])) {
  exit;
 }
 // select logged-in users details
-$res=mysqli_query($conn, "SELECT * FROM users WHERE user_id=".$_SESSION['user_id']);
-$userRow=mysqli_fetch_array($res, MYSQLI_ASSOC);
+$res = mysqli_query($conn, "SELECT * FROM users WHERE user_id=".$_SESSION['user_id']."");
+$userRow = mysqli_fetch_array($res, MYSQLI_ASSOC);
 ?>
 <!DOCTYPE html>
 <html>
@@ -27,7 +27,7 @@ $userRow=mysqli_fetch_array($res, MYSQLI_ASSOC);
         echo "<div class='container mx-auto text-center'>     
                 <figure class='figure'>
                     <img src=".$userRow['image']." class='figure-img img-fluid rounded' alt='...' width='304' height='228'>
-                    <figcaption class='figure-caption'>".$_SESSION['username']."</figcaption>
+                    <figcaption class='figure-caption text-xl'>".$_SESSION['username']."</figcaption>
                 </figure>
               </div>"
         ?>
@@ -41,44 +41,28 @@ $userRow=mysqli_fetch_array($res, MYSQLI_ASSOC);
             while($lib = $result->fetch_assoc()) {
                 // if loggedin user tries to add him/herself than return nothing
                 if ($lib['user_id'] === $_SESSION['user_id']) {
-                    return null;
+                    continue;
                 }
                 echo "<div class='col-md-3 card'>
-                        <img src=".$lib['image']." width='400px' height='366px' alt='...'>
-                        <div class='card-body'>
-                          <h5 class='card-title'>".$lib['name']."</h5>
-                          <h6 class='card-title'>".$lib['address']."</h6>
-                          <p class='card-text'>".$lib['phone']."</p>
-                          <h6 class='card-title'>".$lib['date']."</h6>
-                          <h6 class='card-title'>".$lib['time']."</h6>
-                        </div>
-                        <ul class='list-group list-group-flush'>
-                          <li class='list-group-item'>".$lib['web']."</li>
-                          <li class='list-group-item'>".$lib['description']."</li>
-                        </ul>
-                                            
-                          <div class='card-body text-center'>
-                            <form action='' method='post'>
-                              <input type='hidden' name='id' value=".$lib['user_id']." />
-                              <button type='submit'>add as friend</button>
-                            </form>
-                          </div>
-                    </div>";
-            }
-            if ($_SESSION['admins']) {
-              echo "<div style='width: 100%;'>
-                      <button><a href = 'create.php'>Add Medium Here...</a></button>
-                    </div>";
-            }
-        } else  {
+                          <img src=".$lib['image']." width='400px' height='366px' alt='...'>
+                          <div class='card-body'>
+                            <h5 class='card-title text-center display-6'>".$lib['name']."</h5>                          
+                          </div>                                           
+                            <div class='card-body text-center'>
+                              <form action='' method='post'>
+                                <input type='hidden' name='id' value=".$lib['user_id']." />
+                                <button type='submit'>add as friend</button>
+                              </form>
+                            </div>
+                        </div>";
+              }
+        } else {
             echo "<tr>
                   <td colspan='5'>
                     <center>No Data Available</center>
                   </td>
                 </tr>";
-          }
-    
-    
+          }   
     ?>
     </div>       
 </body>
