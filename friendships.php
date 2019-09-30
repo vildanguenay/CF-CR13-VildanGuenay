@@ -1,14 +1,15 @@
 <?php
-require 'db_connect.php';
-session_start();
-// if session is not set this will redirect to login page
-if(!isset($_SESSION['user_id'])) {
- header("Location: index.php");
- exit;
-}
+  require 'db_connect.php';
+  session_start();
+  // if session is not set this will redirect to login 
+  if(!isset($_SESSION['user_id'])) {
+  header("Location: index.php");
+  exit;
+  }
     $loggedInUserId = $_SESSION['user_id'];
     $sessionUsername = $_SESSION['username'];
-    
+                                      //------------------ QUERY--------------------
+// select friends' id of loggedin user
     $friendshipsQuery = "
     SELECT fk_friend_id
     FROM friendships
@@ -30,6 +31,7 @@ if(!isset($_SESSION['user_id'])) {
 </head>
 <body>
 <?php
+                                  //  <!-- LOGGEDIN USER IMAGE + NAME -->
 echo "<div class='container text-center'>
         <figure class='figure'>
             <img src=".$_SESSION['image']." class='figure-img img-fluid rounded' alt='...' width='304' height='228'>
@@ -40,10 +42,14 @@ echo "<div class='container text-center'>
       <br>
       ";
 ?>
+                                        <!-- FRIENDS IMAGE + NAME -->
 <div class='d-flex justify-content-around flex-wrap'>
-  <?php while ($fk_friend_id = $friendshipsResult->fetch_assoc()) {
-        $friendDataQuery = "SELECT name, image FROM users WHERE user_id = ".$fk_friend_id["fk_friend_id"]." ";
-        $friendDataResult = $conn->query($friendDataQuery);
+  <?php 
+    while ($friend_id = $friendshipsResult->fetch_assoc()) {
+                                      //---------------- QUERY------------------
+      // get additional data of friend via friend_id from previous query, targeting fk_friend_id property in array
+          $friendDataQuery = "SELECT name, image FROM users WHERE user_id = ".$friend_id["fk_friend_id"]." ";
+          $friendDataResult = $conn->query($friendDataQuery);
        
         $friendRow=mysqli_fetch_array($friendDataResult, MYSQLI_ASSOC);
         

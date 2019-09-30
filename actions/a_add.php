@@ -4,17 +4,18 @@ if ($_POST) {
    $friend_id = $_POST['id'];
    $loggedInUserId = $_SESSION['user_id'];
    $sessionUsername = $_SESSION['username'];
-
-   //get name of clicked friend
+                                 //------------------ QUERY--------------------
+//get name of clicked friend
    $friendQuery = "
    SELECT name
    FROM users
    WHERE user_id = ".$friend_id."
    ";
    $friendResult = $conn->query($friendQuery);
-//    put result (a single name) in array
+//put result (a single name) in array
    $rowFriendName=mysqli_fetch_array($friendResult, MYSQLI_ASSOC);
-
+                                
+                                //------------------ QUERY--------------------
    //    check whether current friendship already exists. result is either nothing or contains one friendship eg. vildan-6
    $duplicateQuery = "
    SELECT name, fk_friend_id
